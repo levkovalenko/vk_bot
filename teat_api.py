@@ -69,7 +69,7 @@ def main():
         i = i + 1
         try:
             if i % 16 == 15:
-                vk_api.wall.repost(object='wall-154469416_51', v=5.52)
+                vk_api.wall.repost(object='wall-1_1', v=5.52)
             getNewPostsId(vk_api, session)
             time.sleep(300)
         except:
