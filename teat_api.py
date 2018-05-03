@@ -17,10 +17,10 @@ def putNewPosts(newPosts):
         fileExistedPosts.write(postId + '\n')
 
 
-def sendMessage(message, accesToken=''):
+def sendMessage(message, id, accesToken=''):
     url = "https://broadcast.vkforms.ru/api/v2/broadcast"
 
-    querystring = {"token": "api_31326_SzwsTxLtFT1B8brORL6OcawI", "list_ids": "371921", "run_now": "1"}
+    querystring = {"token": "api_31719_5ySe6b44dlTdEfzMaES2T8G8", "list_ids": id, "run_now": "1"}
 
     payload = "{\n\t\"message\" : {\n\t\t\"attachment\" : [\"" + message + "\"]\n\t}\n}"
     headers = {
@@ -29,8 +29,7 @@ def sendMessage(message, accesToken=''):
         'postman-token': "fc8f2323-3e2a-b996-b0b1-76a207694541"
     }
 
-    response = requests.request("POST", url, data=payload, headers=headers, params=querystring)
-    print(response.text)
+    requests.request("POST", url, data=payload, headers=headers, params=querystring)
 
 
 def getNewPostsId(vkApi, session):
@@ -50,28 +49,35 @@ def getNewPostsId(vkApi, session):
                 putNewPosts([str(postId)])
             else:
                 continue
-            counter = 0
-            for word in keyWords:
-                if postText.find(word) > 0:
-                    counter += 1
-            if counter > 9:
-                sendMessage(message="wall" + postId, accesToken=session.access_token)
-                # vkApi.wall.repost(object='wall'+postId, v=5.52)
+            if postText.find("#волонтерство@dobroboard_spb") > 0 or postText.find("#ДоброБорд") > 0 or \
+                            postText.find("#ДоброBoard") > 0:
+                sendMessage(message="wall" + postId, id="375629", accesToken=session.access_token)
+                time.sleep(1)
+            if postText.find("#конкурс@dobroboard_spb") > 0:
+                sendMessage(message="wall" + postId, id="386268", accesToken=session.access_token)
+                time.sleep(1)
+            if postText.find("#событие@dobroboard_spb") > 0:
+                sendMessage(message="wall" + postId, id="386269", accesToken=session.access_token)
                 time.sleep(1)
 
 
 def main():
-    # https://api.vk.com/method/wall.get?owner_id=-30666517&v=5.52
-
     session = vk.AuthSession('5988829', '79163064478', 'popapopa', scope='wall,photos')
     vk_api = vk.API(session)
-    getNewPostsId(vk_api, session)
+    i = 0
+    while True:
+        i = i + 1
+        try:
+            if i % 16 == 15:
+                vk_api.wall.repost(object='wall-154469416_51', v=5.52)
+            getNewPostsId(vk_api, session)
+            time.sleep(300)
+        except:
+            pass
 
 
-# print(vk_api.wall.repost(object='wall-154469416_51', v=5.52))
 
 
 
-# sendMessage(message="dfhfавпапот", accesToken=session.access_token)
 if __name__ == '__main__':
     main()
