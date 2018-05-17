@@ -42,7 +42,7 @@ def getNewPostsId(vkApi, session):
             postId = groupId + '_' + str(post['id'])
             postText = post['text'].lower()
             if postText.find("#волонтерство@dobroboard_spb") > 0 or postText.find("#ДоброБорд") > 0 or \
-                            postText.find("#ДоброBoard") > 0 or postText.find("#волонтеры@dobroboard_spb"):
+                            postText.find("#ДоброBoard") > 0 or postText.find("#волонтеры@dobroboard_spb") > 0:
                 new = True
                 for id in existedPosts:
                     if id == postId:
