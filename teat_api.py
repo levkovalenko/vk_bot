@@ -40,23 +40,42 @@ def getNewPostsId(vkApi, session):
         posts = vkApi.wall.get(owner_id=groupId, v=5.52, count=10)['items']
         for post in posts:
             postId = groupId + '_' + str(post['id'])
-            new = True
-            for id in existedPosts:
-                if id == postId:
-                    new = False
-            postText = post['text'].lower()
-            if new:
-                putNewPosts([str(postId)])
-            else:
-                continue
+
             if postText.find("#волонтерство@dobroboard_spb") > 0 or postText.find("#ДоброБорд") > 0 or \
                             postText.find("#ДоброBoard") > 0:
+                new = True
+                for id in existedPosts:
+                    if id == postId:
+                        new = False
+                postText = post['text'].lower()
+                if new:
+                    putNewPosts([str(postId)])
+                else:
+                    continue
                 sendMessage(message="wall" + postId, id="375629", accesToken=session.access_token)
                 time.sleep(1)
             if postText.find("#конкурс@dobroboard_spb") > 0:
+                new = True
+                for id in existedPosts:
+                    if id == postId:
+                        new = False
+                postText = post['text'].lower()
+                if new:
+                    putNewPosts([str(postId)])
+                else:
+                    continue
                 sendMessage(message="wall" + postId, id="386268", accesToken=session.access_token)
                 time.sleep(1)
             if postText.find("#событие@dobroboard_spb") > 0:
+                new = True
+                for id in existedPosts:
+                    if id == postId:
+                        new = False
+                postText = post['text'].lower()
+                if new:
+                    putNewPosts([str(postId)])
+                else:
+                    continue
                 sendMessage(message="wall" + postId, id="386269", accesToken=session.access_token)
                 time.sleep(1)
 
