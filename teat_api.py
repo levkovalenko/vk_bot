@@ -89,7 +89,6 @@ def main():
             time.sleep(300)
             if i % 16 == 0:
                 vk_api.messages.send(domain='itchert', message='work', v=5.52)
-            time.sleep(300)
 
         except:
             vk_api.messages.send(domain='itchert', message='lol', v=5.52)
