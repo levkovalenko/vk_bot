@@ -40,14 +40,13 @@ def getNewPostsId(vkApi, session):
         posts = vkApi.wall.get(owner_id=groupId, v=5.52, count=10)['items']
         for post in posts:
             postId = groupId + '_' + str(post['id'])
-
+            postText = post['text'].lower()
             if postText.find("#волонтерство@dobroboard_spb") > 0 or postText.find("#ДоброБорд") > 0 or \
-                            postText.find("#ДоброBoard") > 0:
+                            postText.find("#ДоброBoard") > 0 or postText.find("#волонтеры@dobroboard_spb"):
                 new = True
                 for id in existedPosts:
                     if id == postId:
                         new = False
-                postText = post['text'].lower()
                 if new:
                     putNewPosts([str(postId)])
                 else:
@@ -59,7 +58,6 @@ def getNewPostsId(vkApi, session):
                 for id in existedPosts:
                     if id == postId:
                         new = False
-                postText = post['text'].lower()
                 if new:
                     putNewPosts([str(postId)])
                 else:
@@ -71,7 +69,6 @@ def getNewPostsId(vkApi, session):
                 for id in existedPosts:
                     if id == postId:
                         new = False
-                postText = post['text'].lower()
                 if new:
                     putNewPosts([str(postId)])
                 else:
@@ -85,14 +82,15 @@ def main():
     vk_api = vk.API(session)
     i = 0
     while True:
-        i = i + 1
-        try:
-            if i % 16 == 15:
-                vk_api.wall.post(owner_id='465137130', message='work', v=5.52)
+        # i = i + 1
+        # try:
+
             getNewPostsId(vk_api, session)
+        if i % 16 == 0:
+            vk_api.wall.post(owner_id='465137130', message='work', v=5.52)
             time.sleep(300)
-        except:
-            pass
+        # except:
+        #    pass
 
 
 
